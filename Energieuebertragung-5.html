@@ -1,0 +1,105 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>Elektrische Energie übertragen</title><style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#203b47;background:#f3f5f3;font-synthesis:none;--accent:#246a7b}*{box-sizing:border-box}body{margin:0}main{max-width:1440px;margin:auto;padding:26px 32px}header{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:22px}.eyebrow{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:#5e747a;margin:0 0 6px}h1{font-size:clamp(24px,2.6vw,34px);letter-spacing:-.035em;margin:0;font-weight:650}button{font:inherit;color:#294d5b;background:white;border:1px solid #bdcdd1;border-radius:10px;padding:12px 18px;cursor:pointer}button:hover{background:#e9f0f1}:focus-visible{outline:3px solid #bc7739;outline-offset:4px}.system{border:1px solid #d5dfdf;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 8px 28px #243d4710}.readings{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;padding:24px 28px 12px}.reading{border-left:3px solid #7ea4ae;padding-left:16px}.reading label{display:block;font-size:15px;font-weight:550}.value{display:block;font-size:clamp(30px,3.3vw,44px);line-height:1.3;font-variant-numeric:tabular-nums;letter-spacing:-.035em;font-weight:650;color:#205b6b}.context{font-size:13px;color:#62777c;display:block;margin-top:3px}.scene{background:linear-gradient(#fff,#f5f8f7);overflow-x:auto}.scene svg{display:block;width:100%;min-width:760px;height:clamp(200px,20vw,260px)}.controls{display:grid;grid-template-columns:1.15fr 1fr .85fr;gap:26px;padding:16px 28px;background:#fafbf9;border-top:1px solid #dfe7e3}.control-title{margin:0 0 10px;font-size:16px;font-weight:650}.input-row{display:grid;grid-template-columns:1fr 92px;gap:8px;align-items:center;margin-bottom:4px}label{font-size:14px}.number{width:100%;height:36px;padding:5px 8px;border:1px solid #a9bdc2;border-radius:7px;font:600 16px system-ui;background:white;color:#203b47;text-align:right}input[type=range]{width:100%;height:26px;accent-color:var(--accent);cursor:pointer;margin:2px 0 6px}.limits{display:flex;justify-content:space-between;font-size:11px;color:#6c7f84;margin-top:-6px}.field+.field{margin-top:9px}.small{font-size:13px;color:#5c737a;line-height:1.55;margin:5px 0}.destination{padding-left:22px;border-left:1px solid #dce4e0}.voltage{font-size:27px;font-weight:600;margin:10px 0 4px;font-variant-numeric:tabular-nums}.fixed{display:flex;gap:25px;flex-wrap:wrap;padding:12px 28px;border-top:1px solid #dfe7e3;font-size:14px;color:#4d666e}.fixed strong{color:#284c58;font-weight:600}.notice{padding:14px 20px;background:#edf1f3;border-top:1px solid #bdccd2;font-size:14px;line-height:1.5}.notice[hidden]{display:none}.entry-note{min-height:18px;font-size:12px;color:#5c737a;margin:7px 0 0}details{font-size:13px;color:#5d7278;margin-top:16px;line-height:1.6}summary{cursor:pointer;width:fit-content;padding:6px 0;font-weight:600}details ul{padding-left:21px;margin:8px 0}footer{font-size:11px;color:#71858a;margin-top:12px}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}@media(min-width:1550px){main{padding-top:45px}}@media(max-width:800px){main{padding:18px 14px}.readings{gap:12px;padding:18px 16px}.reading{padding-left:9px}.reading label{font-size:13px}.context{font-size:12px}.controls{grid-template-columns:1fr 1fr;padding:20px 16px;gap:22px}.destination{grid-column:1/-1;border-left:0;border-top:1px solid #dce4e0;padding:16px 0 0;display:flex;align-items:center;justify-content:space-between;gap:12px}.destination .control-title{margin:0}.fixed{padding:12px 16px}}@media(max-width:520px){header{align-items:flex-start;gap:10px}button{padding:10px;font-size:12px}h1{font-size:24px}.eyebrow{font-size:10px}.readings{grid-template-columns:1fr;gap:13px}.reading{display:grid;grid-template-columns:1fr auto;column-gap:8px}.reading label{align-self:center}.value{grid-row:1/3;grid-column:2;font-size:30px}.controls{grid-template-columns:1fr}.destination{grid-column:auto}.scene svg{min-width:760px}.fixed{gap:8px;flex-direction:column}footer{line-height:1.5}}
+
+/* Readouts and illustration share one coordinate width, including when scrolled. */
+.diagram-scroll{overflow-x:auto;background:linear-gradient(#fff,#f5f8f7)}
+.diagram{min-width:1000px}
+.diagram .readings{display:grid;grid-template-columns:30% 40% 10% 20%;gap:0;padding:22px 0 18px;align-items:start}
+.line-readings{grid-column:2}.target-readings{grid-column:4;margin-right:18px}
+.location-label{font-size:14px;letter-spacing:.02em;font-weight:650;margin:0 0 12px;color:#345866}
+.line-readings,.target-readings{position:relative;border-bottom:2px solid #99b4bd;padding-bottom:12px}
+.line-readings::after,.target-readings::after{content:"";position:absolute;left:50%;bottom:-14px;height:12px;border-left:2px solid #99b4bd}
+.line-values{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.diagram .reading{display:block;border:0;padding:0}
+.diagram .reading label{font-size:14px;display:block;min-height:36px;line-height:1.3}
+.diagram .value{font-size:36px;line-height:1.2}
+.diagram .context{font-size:12px;margin-top:6px}
+.diagram .scene{overflow:visible;background:transparent}
+.diagram .scene svg{display:block;width:100%;height:auto;min-width:0}
+@media(max-width:520px){.diagram-scroll{border-bottom:1px solid #dfe7e3}.diagram .readings{padding-top:18px}}
+</style></head><body><main><header><div><p class="eyebrow">Physik · Energieübertragung</p><h1>Vom Windpark zum Verbraucher</h1></div><button id="reset" type="button">Zurücksetzen</button></header><section class="system" aria-label="Simulation der Energieübertragung"><div class="diagram-scroll" tabindex="0" aria-label="Versorgungskette mit zugeordneten Betriebswerten; auf kleinen Bildschirmen seitlich scrollbar"><div class="diagram"><div class="readings"><section class="line-readings" aria-label="Betriebswerte der langen Leitung"><h2 class="location-label">In der langen Leitung</h2><div class="line-values"><div class="reading"><label for="u">Spannung U (kV)</label><output class="value" id="u">5,00</output><span class="context">Am Anfang der Leitung</span></div><div class="reading"><label for="i">Stromstärke I (A)</label><output class="value" id="i">200,00</output><span class="context">In Hin- und Rückleitung</span></div></div></section><section class="target-readings" aria-label="Betriebswert am Verbraucher"><h2 class="location-label">Am Verbraucher</h2><div class="reading"><label for="p">Nutzbare Leistung P<sub>nutz</sub> (kW)</label><output class="value" id="p">600,00</output><span class="context">Nach Transformator 2</span></div></section></div><div class="scene"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 310" role="img" aria-labelledby="scene-title scene-desc"><title id="scene-title">Vom Windpark zum Wohngebiet</title><desc id="scene-desc">Windräder mit Wechselspannungsquelle, erster Transformator, zwei Leiter über Strommasten, zweiter Transformator und Verbraucher. Jeder Stromkreis besitzt eine Hin- und Rückleitung. Die Spulen sind schematisch.</desc><defs><pattern id="core" width="5" height="5" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="#d3dce2"/><path d="M0 0V5" stroke="#aebcc5"/></pattern></defs>
+<path d="M0 260 Q110 225 210 260 T440 260 T700 248 T950 260 T1200 250 V310H0Z" fill="#e6eee9"/><path d="M0 282 Q180 252 310 283 T640 280 T980 280 T1200 276 V310H0Z" fill="#d7e5dc"/>
+<g fill="#4a626c" font-family="system-ui,sans-serif" font-size="16" font-weight="600"><text x="80" y="32" text-anchor="middle">Windpark</text><text x="300" y="32" text-anchor="middle">Transformator 1</text><text x="600" y="32" text-anchor="middle">Lange Stromleitung</text><text x="900" y="32" text-anchor="middle">Transformator 2</text><text x="1110" y="32" text-anchor="middle">Verbraucher</text></g>
+<g fill="#62777c" font-family="system-ui,sans-serif" text-anchor="middle"><text x="95" y="278" font-size="12">Primärspannung U<tspan baseline-shift="sub" font-size="9">P</tspan></text><text x="95" y="299" font-size="17" font-weight="600">5 kV</text></g>
+<!-- Separate closed circuits on the source, transmission and load sides. -->
+<g fill="none" stroke="#356e80" stroke-width="3" stroke-linejoin="round"><path d="M105 171H145V117H270M105 205H160V225H270"/><path d="M330 117H403Q495 148 535 117Q625 148 665 117Q755 148 797 117H870"/><path d="M330 225H403Q495 256 535 225Q625 256 665 225Q755 256 797 225H870"/><path d="M930 117H1020V157H1060M930 225H1020V205H1060"/></g>
+<g fill="#647d86" font-family="system-ui,sans-serif" font-size="12"><text x="585" y="105">Hinleitung</text><text x="585" y="267">Rückleitung</text></g>
+<g stroke="#98a8aa" stroke-width="3" fill="none"><path d="M381 287L403 83L425 287M373 117H433M373 225H433M389 220L423 267M417 220L383 267M394 161L417 220M412 161L389 220"/><path d="M513 287L535 83L557 287M505 117H565M505 225H565M521 220L555 267M549 220L515 267M526 161L549 220M544 161L521 220"/><path d="M643 287L665 83L687 287M635 117H695M635 225H695M651 220L685 267M679 220L645 267M656 161L679 220M674 161L651 220"/><path d="M775 287L797 83L819 287M767 117H827M767 225H827M783 220L817 267M811 220L777 267M788 161L811 220M806 161L783 220"/></g><rect x="258" y="98" width="84" height="148" rx="7" fill="url(#core)" stroke="#8c9da7" stroke-width="2"/><rect x="282" y="121" width="36" height="100" rx="3" fill="#f5f8f7"/><g id="coil-1p"></g><g id="coil-1s"></g><text x="270" y="84" text-anchor="middle" fill="#326d80" font-family="system-ui" font-size="13">Primär</text><text x="330" y="84" text-anchor="middle" fill="#825632" font-family="system-ui" font-size="13">Sekundär</text><rect x="858" y="98" width="84" height="148" rx="7" fill="url(#core)" stroke="#8c9da7" stroke-width="2"/><rect x="882" y="121" width="36" height="100" rx="3" fill="#f5f8f7"/><g id="coil-2p"></g><g id="coil-2s"></g><text x="870" y="84" text-anchor="middle" fill="#825632" font-family="system-ui" font-size="13">Primär</text><text x="930" y="84" text-anchor="middle" fill="#326d80" font-family="system-ui" font-size="13">Sekundär</text><g stroke="#718b92" stroke-linejoin="round" stroke-width="2">
+<path d="M41 244L46 118H52L57 244Z" fill="#dae4e5"/>
+<path d="M138 244L143 135H149L154 244Z" fill="#dae4e5"/>
+<g fill="#fdfefd"><path d="M49 120L44 68Q44 62 48 62L54 115Z"/><path d="M49 120L6 148Q2 151 3 155L51 126Z"/><path d="M49 120L93 145Q99 148 100 144L55 116Z"/>
+<path d="M146 137L142 91Q142 86 146 86L151 133Z"/><path d="M146 137L107 162Q102 165 104 169L149 142Z"/><path d="M146 137L186 159Q192 162 192 158L151 133Z"/></g>
+<g fill="#e4ecec"><circle cx="49" cy="120" r="7"/><circle cx="146" cy="137" r="6"/></g>
+<path d="M49 244H146" stroke="#a8b9ba" stroke-width="4"/>
+<rect x="57" y="159" width="52" height="60" rx="7" fill="#e8efed"/>
+<circle cx="83" cy="188" r="22" fill="#fff"/>
+<path d="M67 188Q75 170 83 188T99 188" fill="none" stroke="#326d80" stroke-width="3"/>
+</g><g stroke="#70878b" stroke-width="2"><path d="M1050 244V170L1090 139L1130 170V244Z" fill="#f7f5ed"/><path d="M1041 174L1090 135L1139 174" fill="none" stroke-width="5"/><path d="M1117 257V203L1153 176L1189 203V257Z" fill="#e6ece7"/><path d="M1110 207L1153 172L1196 207" fill="none" stroke-width="5"/><path d="M1079 244V213H1098V244" fill="#b4c8c9"/><path d="M1150 257V233H1164V257" fill="#b4c8c9"/></g><g fill="#a9c6ce"><path d="M1064 178H1078V196H1064ZM1099 178H1113V196H1099ZM1130 211H1143V226H1130ZM1167 211H1180V226H1167Z"/></g><g fill="#93b09d"><circle cx="987" cy="252" r="14"/><circle cx="190" cy="263" r="16"/></g><path d="M987 253V282M190 264V287" stroke="#7b9183" stroke-width="3"/></svg></div></div></div><div class="fixed"><span>Einspeiseleistung P<sub>ein</sub>: <strong>1.000 kW</strong></span></div><div class="controls"><section><h2 class="control-title">Transformator 1</h2><div class="field"><div class="input-row"><label for="np">Primärwindungszahl N<sub>P</sub></label><input class="number" id="np" type="number" min="100" max="2000" step="1" value="1000" aria-describedby="entry-note"></div><input id="np-range" type="range" min="100" max="2000" step="1" value="1000" aria-label="Primärwindungszahl einstellen"><div class="limits"><span>100</span><span>2.000</span></div></div><div class="field"><div class="input-row"><label for="ns">Sekundärwindungszahl N<sub>S</sub></label><input class="number" id="ns" type="number" min="100" max="2000" step="1" value="1000" aria-describedby="entry-note"></div><input id="ns-range" type="range" min="100" max="2000" step="1" value="1000" aria-label="Sekundärwindungszahl einstellen"><div class="limits"><span>100</span><span>2.000</span></div></div></section><section><h2 class="control-title">Leitung</h2><div class="input-row"><label for="r">Leitungswiderstand R<sub>L</sub> (Ω)</label><input class="number" id="r" type="text" inputmode="decimal" value="10" aria-describedby="r-description entry-note"></div><p class="small" id="r-description">Hin- und Rückleitung zusammen</p><input id="r-range" type="range" min="1" max="20" step="any" value="10" aria-label="Leitungswiderstand einstellen"><div class="limits"><span>1 Ω</span><span>20 Ω</span></div></section><section class="destination"><div><h2 class="control-title">Transformator 2</h2><p class="small">Automatisch auf 230 V geregelt</p></div><div><p class="small">Verbraucherspannung</p><output id="consumer" class="voltage">230 V</output></div></section></div><div id="notice" class="notice" role="status" hidden>Mit diesen Einstellungen ist im Modell kein gültiger Betriebszustand bei der vorgegebenen Einspeiseleistung möglich. Bitte ändere die Einstellungen.</div></section><p id="entry-note" class="entry-note" role="status"></p><details><summary>Modellannahmen</summary><ul><li>Ideale Transformatoren; keine zusätzlichen Transformatorverluste.</li><li>Vereinfachtes stationäres Wechselstrommodell mit Effektivwerten, ohne Blindleistung oder Phasenverschiebung.</li><li>Konstante Einspeiseleistung als vorgegebene Betriebsbedingung und daran angepasste, variable Last.</li><li>Gesamtwiderstand von Hin- und Rückleitung; rein ohmsch und ohne Temperaturabhängigkeit.</li><li>Idealisierte automatische Anpassung des zweiten Transformators auf 230 V unter Berücksichtigung der Spannung am Leitungsende. Die spiegelbildliche Spulenzeichnung stellt nicht das tatsächlich berechnete Windungsverhältnis dar.</li></ul></details><footer>Spulen in groben Stufen dargestellt; maßgeblich sind die eingestellten Windungszahlen. Trafo 2 ist zur Veranschaulichung spiegelbildlich gezeichnet.</footer><span id="announcement" class="sr-only" role="status" aria-live="polite"></span></main><script>
+'use strict';
+const defaults={np:1000,ns:1000,r:10};
+const state={...defaults};
+const $=id=>document.getElementById(id);
+const fmt=new Intl.NumberFormat('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2});
+let announceTimer;
+// Effective-value, purely resistive AC model. All calculations use unrounded values.
+function calculate(np,ns,r){
+ const inputPower=1000000, primaryVoltage=5000;
+ const voltage=primaryVoltage*ns/np;
+ const valid=Number.isFinite(voltage)&&voltage*voltage>inputPower*r;
+ if(!valid)return {voltage,valid:false};
+ const current=inputPower/voltage;
+ const endVoltage=voltage-current*r;
+ const loss=current*current*r;
+ const usefulPower=inputPower-loss;
+ const transformer2Ratio=230/endVoltage;
+ const consumerCurrent=usefulPower/230;
+ return {voltage,valid:true,current,endVoltage,usefulPower,transformer2Ratio,consumerCurrent};
+}
+// Coils are qualitative symbols, not literal turn counts.
+function coilTurns(turns){return Math.round(3+11*(turns-100)/1900);}
+function drawCoil(id,x,count,color){
+ const top=126,bottom=218,step=(bottom-top)/count;
+ const direction=id.startsWith('coil-2')?-1:1;
+ // One continuous helical wire, centered on the core leg.
+ let d=`M ${x} 117 L ${x-direction*18} ${top}`;
+ for(let k=1;k<=count*40;k++){
+  const turn=k/40,angle=turn*2*Math.PI;
+  const px=x-direction*18*Math.cos(angle);
+  const py=top+turn*step+step*0.45*Math.sin(angle);
+  d+=` L ${px.toFixed(3)} ${py.toFixed(3)}`;
+ }
+ d+=` L ${x} 225`;
+ $(id).innerHTML=`<path d="${d}" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
+ $(id).setAttribute('data-turns',count);
+}
+function updateCoils(){
+ const primary=coilTurns(state.np),secondary=coilTurns(state.ns);
+ drawCoil('coil-1p',270,primary,'#326d80');
+ drawCoil('coil-1s',330,secondary,'#9c6b42');
+ // Deliberately mirrored schematic; actual transformer regulation is calculated independently.
+ drawCoil('coil-2p',870,secondary,'#9c6b42');
+ drawCoil('coil-2s',930,primary,'#326d80');
+}
+function update(){
+ const m=calculate(state.np,state.ns,state.r);
+ updateCoils();
+ $('u').textContent=fmt.format(m.voltage/1000);
+ $('i').textContent=m.valid?fmt.format(m.current):'—';
+ $('p').textContent=m.valid?fmt.format(m.usefulPower/1000):'—';
+ $('consumer').textContent=m.valid?'230 V':'—';
+ for(const id of ['i','p','consumer'])$(id).setAttribute('aria-label',m.valid?$(id).textContent:'Nicht verfügbar');
+ $('notice').hidden=m.valid;
+ clearTimeout(announceTimer);
+ announceTimer=setTimeout(()=>{$('announcement').textContent=m.valid?`Spannung am Anfang der Leitung ${$('u').textContent} Kilovolt, Stromstärke in der Leitung ${$('i').textContent} Ampere, nutzbare Leistung am Verbraucher ${$('p').textContent} Kilowatt.`:$('notice').textContent;},350);
+}
+function parseEntry(id){const raw=$(id).value.trim().replace(',','.');if(!/^(?:\d+(?:\.\d*)?|\.\d+)$/.test(raw))return null;const v=Number(raw);return Number.isFinite(v)&&v>=(id==='r'?1:100)&&v<=(id==='r'?20:2000)&&(id==='r'||Number.isInteger(v))?v:null;}
+function displayInput(id){$(id).value=id==='r'?String(state[id]).replace('.',','):state[id];$(id+'-range').value=state[id];$(id).removeAttribute('aria-invalid');}
+for(const id of ['np','ns','r']){
+ $(id+'-range').addEventListener('input',()=>{state[id]=Number($(id+'-range').value);displayInput(id);$('entry-note').textContent='';update();});
+ $(id).addEventListener('input',()=>{const v=parseEntry(id);if(v===null){$(id).setAttribute('aria-invalid','true');$('entry-note').textContent=id==='r'?'Bitte einen Widerstand zwischen 1 und 20 Ω eingeben. Bis dahin gilt der letzte gültige Wert.':'Bitte eine ganze Windungszahl zwischen 100 und 2.000 eingeben. Bis dahin gilt der letzte gültige Wert.';return;}state[id]=v;$(id+'-range').value=v;$(id).removeAttribute('aria-invalid');$('entry-note').textContent='';update();});
+ $(id).addEventListener('blur',()=>{displayInput(id);$('entry-note').textContent='';});
+ $(id).addEventListener('keydown',e=>{if(e.key==='Enter')$(id).blur();});
+}
+$('reset').addEventListener('click',()=>{Object.assign(state,defaults);for(const id of Object.keys(state))displayInput(id);$('entry-note').textContent='';update();});
+update();
+</script></body></html>
